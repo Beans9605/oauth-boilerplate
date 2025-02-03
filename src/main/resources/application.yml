@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: oauth-keycloak
+  # thymeleaf 의 기본 세팅 값이나, 정의 함으로써 해당 설정을 잊지 않기 위함
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+  security:
+    oauth2:
+      client:
+        registration:
+          # keycloak 이라는 이름의 registration 을 사용하여 realm, client-id 를 정의했으나, 다른 이름으로 여러 개를 정의 가능
+          keycloak:
+            provider: test-keycloak
+            client-id: test-client
+            client-secret: sPdXvBokkEFcQNh7PSPW3uYUZRkdNOE7
+            authorization-grant-type: authorization_code
+#            redirect-uri: http://localhost:8080/realms/test-realm/protocol/openid-connect/auth
+            scope:
+              - openid
+        provider:
+          # provider 를 따로 두는 이유는 어디서 발급받는지, 발급 주체 및 여러 url 을 추가 등록하여 oauth 에서 기본으로 사용 할 수 있는
+          # 기능의 폭을 넓혀줌.
+          test-keycloak:
+            issuer-uri: http://localhost:8080/realms/test-realm
+            user-info-uri: http://localhost:8080/realms/test-realm/protocol/openid-connect/userinfo
+            token-uri: http://localhost:8080/realms/test-realm/protocol/openid-connect/token
+            authorization-uri: http://localhost:8080/realms/test-realm/protocol/openid-connect/auth
+server:
+  port: 8081

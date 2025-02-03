@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - ./volume/postgresql/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+      TZ: Asia/Seoul
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.1.0
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
+      TZ: Asia/Seoul
+      # keycloak이 quarkus를 사용하는 버전부터는 기존 환경변수 이름이 KC_*로 변경된 것이 많음
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: password
+#      KC_HOSTNAME: keycloak.example.com # production 모드 사용 시 정의
+      KC_PROXY: edge # edge proxy mode 사용
+    command:
+#      - start # production 모드로 시작
+      - start-dev # development 모드로 시작
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres

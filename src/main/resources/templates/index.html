@@ -1,0 +1,17 @@
+<!-- thymeleaf 를 활용한 login 및 logout 예제 화면 -->
+<!-- JAVA 내에 client UI 를 설정하지 않을 것이라면 사용하지 않아도 됨. -->
+<!-- /oauth2/authorization/keycloak 로 직접 접근하여 로그인 혹은 session 확인 가능 -->
+<div class="container">
+    <h1 class="form-signin-heading">Baeldung: Keycloak &amp; Spring Boot</h1>
+    <p>Welcome to a Thymeleaf UI served by Spring Boot and secured using Keycloak!</p>
+    <div th:if="${!isAuthenticated}">
+        <a href="/oauth2/authorization/keycloak"><button type="button"
+                                                         class="btn btn-lg btn-primary btn-block">Login</button></a>
+    </div>
+    <div th:if="${isAuthenticated}">
+        <p>Hi <span th:utext="${name}">..!..</span>!</p>
+        <a href="/logout"><button type="button" class="btn btn-lg btn-primary">Logout</button></a>
+        <a th:if="${isNice}" href="/nice">
+            <button type="button" class="btn btn-lg btn-primary">Browse to NICE users page</button></a>
+    </div>
+</div>
